@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="forsideStyle.css">
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+  <title>Forside</title>
+</head>
+
+<body>
+
+  <h2 class="overskrift">Hvilke Tech-giganter udleder mest CO2?</h2>
+  <div class="knap">
+    <button class="Test-knap" onclick="openGame()">TEST DIG SELV</button>
+    <script>
+      function openGame() {
+        window.open("projektGame/index.html");
+      }
+    </script>
+  </div>
+  <!-- DO NOT TOUCH DIS PLS HELLER IKKE RÆKKEFØLGEN TAK. -->
+  <!--       Det er baggrund til forsiden CSS-ting       -->
+  <div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+  </div>
+  <!--       Det er baggrund til forsiden CSS-ting       -->
+  <!-- DO NOT TOUCH DIS PLS HELLER IKKE RÆKKEFØLGEN TAK. -->
+
+
+  <!-- Data -->
+  <script>
+    d3.csv("infrastruktur.csv").then(function (data) {
+
+      // Set the dimensions and margins of the graph
+      const margin = { top: 30, right: 250, bottom: 300, left: 400 };
+      const width = 1300 - margin.left - margin.right;
+      const height = 800 - margin.top - margin.bottom;
+
+      // Define the scales
+      const xScale = d3.scaleBand()
+        .domain(data.map(function (d) {
+          return d.firmaer_navne;
+        }))
+        .range([0, width])
+        .padding(0.2);
+
+      const yScale = d3.scaleLinear()
+        .domain([0, d3.max(data, function (d) {
+          return parseFloat(d.metric_tons_pr_year);
+        })])
+        .range([height, 0]);
+
+      // Create the SVG element
+      const svg = d3.select("body")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      // Add the bars
+      svg.selectAll("rect")
+        .data(data)
+        .enter()
+        .append("rect")
+        .attr("x", function (d) {
+          return xScale(d.firmaer_navne);
+        })
+        .attr("y", function (d) {
+          return yScale(parseFloat(d.metric_tons_pr_year));
+        })
+        .attr("width", xScale.bandwidth())
+        .attr("height", function (d) {
+          return height - yScale(parseFloat(d.metric_tons_pr_year));
+        })
+        .attr("fill", "steelblue");
+
+      // Add the x-axis
+      svg.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(xScale))
+        .selectAll("text")
+        .attr("transform", "rotate(-45)")
+        .style("text-anchor", "end",)
+        .style("font-size", "12px",)
+        
+
+      // Add the y-axis
+      svg.append("g")
+        .call(d3.axisLeft(yScale));
+        
+
+    });
+  </script>
+
+  <div class="info-box">
+    <h2>Info Box oenten omrking hvad der bliver visualiseret eller noget sjovt fakta eksempelvis: en sammenligning
+      omkring hvor meget virksomheder udleder ift lande, som fx Frankrig.</h2>
+    <p>Info box til barchart, eller det andet</p>
+  </div>
+
+</body>
+
+</html>
