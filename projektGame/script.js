@@ -13,7 +13,7 @@ fetchSites();
 
 async function fetchSites() {
     try {
-        const response = await fetch('https://bullshitspapi.onrender.com/api/sites');
+        const response = await fetch('http://localhost:3001/api/sites');
         sites = await response.json();
         if (sites && sites.length > 0) {
             updateUI();
@@ -109,8 +109,7 @@ function updateUI() {
     currentSite = getRandSite(otherSite);
     otherSite = getRandSite(currentSite);
 
-    let convertToNumberO = otherSite.co2_per_year * 1; // to get decimals cuz shits not working
-    let convertToNumberC = currentSite.co2_per_year * 1; // to get decimals cuz shits not working
+    let convertToNumberC = currentSite.co2_per_year * 1;
 
     // Update UI for current site (left side)
     const siteNameElement = document.getElementById("site-name");
