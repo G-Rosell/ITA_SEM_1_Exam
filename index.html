@@ -1,38 +1,39 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="forsideStyle.css">
   <script src="https://d3js.org/d3.v6.min.js"></script>
   <style>
-    /* CSS for the text box */
-    .text-box {
-      position: absolute;
-      background-color: transparent;
-      font-size: 16px;
+    /* Disable scroll */
+    body {
+     overflow: hidden;
     }
+
   </style>
   <title>Forside</title>
 
 </head>
-
 <body>
+    <!-- HEADER -->
+    <header class="header1">
+      <div class="header">
+        <img class="billede" src="/semProjekt/forside/GRUPPELOGO.png">
+        <p class="header-tekst">Hvilke Tech-giganter udleder mest CO2?</p>
+      </div>
+    </header>
+
   <!-- Baggrund -->
   <div class="bg"></div>
   <div class="bg bg2"></div>
   <div class="bg bg3"></div>
-  <h2 class="overskrift">Hvilke Tech-giganter udleder mest CO2?</h2>
- 
-    <!-- HEADER -->
-
+  <h2 class="overskrift"></h2>
 
   <!-- Data -->
   <script>
     d3.csv("infrastruktur.csv").then(function (data) {
 
       // Set the dimensions and margins of the graph
-      const margin = { top: 30, right: 50, bottom: 300, left: 300 };
+      const margin = { top: 30, right: 100, bottom: 300, left: 300 };
       const width = 1200 - margin.left - margin.right;
       const height = 800 - margin.top - margin.bottom;
 
@@ -63,6 +64,7 @@
         .data(data)
         .enter()
         .append("rect")
+        .attr("class", "bar") // Added class for the bars
         .attr("x", function (d) {
           return xScale(d.firmaer_navne);
         })
@@ -73,8 +75,17 @@
         .attr("height", function (d) {
           return height - yScale(parseFloat(d.metric_tons_pr_year));
         })
-        .attr("fill", "steelblue");
+        .attr("fill", function (d) {
+                if (d.metric_tons_pr_year > 60000000) {
+                    return "red";
+                } else if (d.metric_tons_pr_year > 15000000) {
+                  return "orange"
+                }
 
+                else {
+                    return "green";
+                }
+              });
       // Add the x-axis
       svg.append("g")
         .attr("transform", "translate(0," + height + ")")
@@ -90,24 +101,24 @@
         .call(d3.axisLeft(yScale))
         .style("font-size", "14px");
 
-      // Add the text box
-      svg.selectAll(".text-box")
-        .data(data)
-        .enter()
-        .append("foreignObject")
-        .attr("class", "text-box")
-        .attr("x", function (d) {
-          return xScale(d.firmaer_navne) + (xScale.bandwidth() / 2) - 50;
-        })
-        .attr("y", function (d) {
-          return yScale(parseFloat(d.metric_tons_pr_year)) - 30;
-        })
-        .attr("width", 100)
-        .attr("height", 60)
-        .append("xhtml:div")
-        .html(function (d) {
-          return "<p>" + d.metric_tons_pr_year + "</p>";
-        });
+     // Add the text box
+svg.selectAll(".text-box")
+  .data(data)
+  .enter()
+  .append("foreignObject")
+  .attr("class", "text-box")
+  .attr("x", function (d) {
+    return xScale(d.firmaer_navne) + (xScale.bandwidth() / 2) - 50;
+  })
+  .attr("y", function (d) {
+    return yScale(parseFloat(d.metric_tons_pr_year)) - 30;
+  })
+  .attr("width", 100)
+  .attr("height", 60)
+  .append("xhtml:div")
+  .html(function (d) {
+    return "<p class='text-content'>" + d.metric_tons_pr_year * 1 + "</p>";
+  });
 
     });
   </script>
@@ -115,11 +126,10 @@
   <div class="info-box">
     <div class="evenboxinner"> VIGTIG VIDEN!</div>
 
-    <h2 style="font-size: 38px;">GRAFEN</h2>
-    <p style="font-weight: normal; font-size: 20px; margin-top: 50px;">Vores graf viser nogle af de største Tech Giganters CO2 udslip på 1 år, overrasker det dig hvor meget Tech industrien er med til at forårsage de store klimaudfordringer vi står med?
+    <h2 style="font-size: 38px; ">GRAFEN</h2>
+    <p style="margin-top: 20px;"><p style="margin-top: 20px;">Graffen visualiserer nogle af de største Tech Giganters CO2 udslip på 1 år. <p> Overrasker det dig, hvor meget Tech industrien er med til at forårsage de store klimaudfordringer vi i dag står med? </p> </p>
 
-      Vi har taget udgangspunkt i, hvor meget CO2 de forskellige virksomheders datacentre udleder.
-      Det er måske ikke umiddelbart de Tech giganter, du tror, der sviner mest.</p>
+    <p style="margin-top: 20px;">Vi har taget udgangspunkt i, hvor meget CO2 de forskellige virksomheders datacentre udleder. Det er måske ikke umiddelbart de Tech giganter, du tror, der sviner mest. <p>  Prøv din viden af og sæt rekord, ved at spille vores “Higher and lower game”. Ved du, hvilke virksomheder der udleder mest CO2? </p>
       <div class="knap">
         <button style="margin-top: 50px;" class="Test-knap" onclick="openGame()">TEST DIG SELV!</button>
         <script>
@@ -130,8 +140,18 @@
       </div>
   </div>
     <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-content">
+        <p>Gruppe Bullshit</p>
+        <ul class="footer-links">
+          <li><a href="#">Erhvervsakademi </a></li>
+          <li><a href="#">ITA tværfagligt projekt 2023</a></li>
+          <li><a href="#">ITA tværfagligt projekt 2023</a></li>
 
-
+        </ul>
+      </div>
+    </footer>
+      
 </body>
 
 </html>
