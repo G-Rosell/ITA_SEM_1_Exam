@@ -13,7 +13,7 @@ fetchSites();
 // Fetch the list of sites from the server
 async function fetchSites() {
     try {
-        const response = await fetch('http://localhost:3001/api/sites');
+        const response = await fetch('https://bullshitspapi.onrender.com/api/sites');
         sites = await response.json();
         if (sites && sites.length > 0) {
             updateUI();
