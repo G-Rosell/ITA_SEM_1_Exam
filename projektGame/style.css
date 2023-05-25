@@ -77,7 +77,7 @@ button.clicked::after {
 }
 
 #lower-btn:hover {
-  background-color: #c0392b;
+  background-color: #09ff00 ;
 }
 
 #try-again-btn:hover {
