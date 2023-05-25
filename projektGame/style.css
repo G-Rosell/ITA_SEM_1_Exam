@@ -65,15 +65,15 @@ button.clicked::after {
 
 /* ID selectors */
 #higher-btn {
-  background-color: #2ecc71;
+  background-color: #cc2e2e;
 }
 
 #higher-btn:hover {
-  background-color: #27ae60;
+  background-color: #ff0000;
 }
 
 #lower-btn {
-  background-color: #e74c3c;
+  background-color: #3ed339;
 }
 
 #lower-btn:hover {
@@ -81,7 +81,7 @@ button.clicked::after {
 }
 
 #try-again-btn:hover {
-  background-color: #2980b9;
+  background-color: #09ff00;
 }
 
 #result {
